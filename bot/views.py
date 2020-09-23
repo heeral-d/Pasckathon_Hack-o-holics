@@ -1,13 +1,12 @@
 from django.shortcuts import render, HttpResponse
 import speech_recognition as sr
 import nltk
-nltk.download()
+import os
+from bot.sqlparser2 import parser
 import pickle
 import json
-# import MySQLdb
-import mysql.connector
+import MySQLdb
 from nltk.stem import WordNetLemmatizer 
-
 # Create your views here.
 
 from selenium import webdriver
@@ -17,12 +16,26 @@ from selenium.webdriver.common.by import By
 import time
 from selenium.webdriver.common.keys import Keys
 
-
+database = ''
 
 def home(request):
     return render(request, 'home.html', {'data': 'Naveen'})
 
+def set_database(request):
+    global database
+    sample_text = request.GET['post_id']
+    if sample_text=='1':
+        database="university"
+    elif sample_text=='2':
+        database='smart_bot'
+    parser(database+'.sql')
+    #os.system('python sqlparser2.py '+database+'.sql')
+    sql="Database loaded"
+    result="Start Using Me"
+    return HttpResponse('<span> ' + sql +'<br>'+database+ ' </span>')    
+
 def get_sql(request):
+    global database
     sample_text = request.GET['post_id']
     with open('static/table_attributes.json') as f:
         table_attributes = json.load(f)
@@ -219,7 +232,7 @@ def get_sql(request):
         # mysqlconnect(sql)
          
     try: 
-        db_connection= mysql.connector.connect("localhost","root","","college_db") 
+        db_connection= MySQLdb.connect("localhost","root","",database) 
     except: 
         print("Can't connect to database") 
         return 0
@@ -235,7 +248,7 @@ def get_sql(request):
         result = 'Try Again'
 
         db_connection.close()
-    print(sql)
+
     return HttpResponse('<span> ' + sql +'<br>'+result+ ' </span>')
 
 def record(request):

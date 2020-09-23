@@ -5,5 +5,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('getsql/', views.get_sql, name='getsql'),
     path('record/', views.record, name='record'),
-    path('trans/', views.trans, name='trans')
+    path('trans/', views.trans, name='trans'),
+    path('get_database/', views.set_database, name='setdata')
+
 ]
