@@ -1,0 +1,1 @@
+{"department": ["dept_id"], "enrolls": ["roll_no", "sub_id"], "faculty": ["fac_id"], "student": ["roll_no"], "subjects": ["sub_id"], "teaches": ["fac_id", "sub_id"]}

@@ -1,0 +1,20 @@
+{
+	">": ["greater", "over", "greater than", "more than", "over than","above"],
+	"<": ["less than", "less","below","le"],
+	"AVG": ["average", "avg"],
+	"MAX": ["maximum", "highest", "max"],
+	"SUM": ["sum", "total"],
+	"MIN": ["minimum", "lowest", "min"],
+	"COUNT": ["number", "no.", "how many", "count"],
+	"AND": ["and"],
+	"OR": ["or"],
+	"BETWEEN": ["between", "per", "range"],
+	"ORDER": ["order", "ordered"],
+	"ASC": ["ascending", "asc"],
+	"DESC": ["descending", "decreasing", "inverse", "reverse", "opposite"],
+	"GROUP": ["group", "grouped", "clubbed"],
+	"NEGATION": ["not", "no"],
+	"=": ["is", "equal", "equals", "equal to", "equals to", "are"],
+	"LIKE": ["like", "likes", "similar to"],
+	"DISTINCT": ["distinct", "different", "distinctive", "distinctly", "unique"]
+}
