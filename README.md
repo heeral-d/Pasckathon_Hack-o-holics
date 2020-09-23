@@ -10,6 +10,13 @@ Implemented a Natural Language interface to access a Relational Database Managem
 
 The system takes .sql file as an input and an SQL parser program fetches the tables, attributes, primary keys of each table and the relations between the tables(foreign keys).
 
+### Features
+> 1. First of a kind chatbot interface which can be integrated with any database system.
+> 2. Access Database from an interactive interface.
+> 3. Give suggestions when user gives input.
+> 4. Give accurate results in spite of grammatical and semantic errors using Deep Learning algorithms.
+> 5. Speech-to-text and text-to-speech conversion
+
 ### Tech Stack
 
 ###### Backend
@@ -65,7 +72,7 @@ This kind of interface has wide applications where the users of the database don
 > * Financial markets to analyse market trends and 
 > * E-commerce companies to save and retrieve data of customers and products
 
-###### Future Work
+### Future Work
 > 1. Complex queries like JOINs and sub-queries.
 > 2. Multilingual facility.
 > 3. Increased efficiency for complicated English questions.
