@@ -12,7 +12,7 @@ The system takes .sql file as an input and an SQL parser program fetches the tab
 
 ### Tech Stack
 
-####Backend
+######Backend
 > 1. Django
 > 2. Spacy
 > 3. NLTK
@@ -20,7 +20,7 @@ The system takes .sql file as an input and an SQL parser program fetches the tab
 > 5. MySQL
 > 6. Word2VEc
 
-####Frontend
+######Frontend
 > 1. HTML5
 > 2. CSS3
 > 3. Bootstrap4
