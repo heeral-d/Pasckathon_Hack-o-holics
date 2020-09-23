@@ -57,7 +57,7 @@ To run the application, go to the folder with the files and open the command pro
 For Output - Go to http://127.0.0.1:8000/ to open the page
 
 ### Implementation snippets 
-![chatbot](screenshots/example.jpg)
+![chatbot](Screenshots/example.jpg)
 
 ### Application
 This kind of interface has wide applications where the users of the database don’t necessarily need to be well-versed with SQL language. Such systems can be used in -
