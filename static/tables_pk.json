@@ -1,1 +1,1 @@
-{"company": ["company_id"], "company_product": ["company_id", "product_id"], "customer": ["customer_id"], "customer_product": ["customer_id", "product_id"], "product": ["product_id"]}
+{"department": ["dept_id"], "enrolls": ["roll_no", "sub_id"], "faculty": ["fac_id"], "student": ["roll_no"], "subjects": ["sub_id"], "teaches": ["fac_id", "sub_id"]}

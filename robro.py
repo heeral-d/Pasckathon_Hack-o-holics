@@ -5,11 +5,13 @@ import nltk
 import os
 import pickle
 import json
-import MySQLdb
+# import MySQLdb
+import pymysql
+import database_config
 from nltk.stem import WordNetLemmatizer 
 app = Flask(__name__)
 
-app.config['File_uploads']="C:\\Users\\Admin\\Desktop\\paskathon\\static"
+app.config['File_uploads']=database_config.file_path+"static"
 database = ''
 dic1 = {}
 
@@ -86,7 +88,6 @@ def getsql():
     map_schema={}
     agg=''
     
-    result=""
     # def mysqlconnect(sql): 
     #     try: 
     #         db_connection= MySQLdb.connect("localhost","root","","smart_bot") 
@@ -260,24 +261,36 @@ def getsql():
     print(sql)
         # mysqlconnect(sql)
          
-    try: 
-        db_connection= MySQLdb.connect("localhost","root","",database) 
-    except: 
-        print("Can't connect to database") 
-        return 0
-    print("Connected")  
-    cursor=db_connection.cursor() 
+    # try: 
+    #     db_connection= MySQLdb.connect("localhost","root","",database) 
+    # except: 
+    #     print("Can't connect to database") 
+    #     return 0
+    # print("Connected")  
+    # cursor=db_connection.cursor() 
+    # try:
+    #     cursor.execute(sql) 
+    #     m = cursor.fetchall() 
+    #     print('---------------------')
+    #     for row in m:
+    #         result+=str(row)+"<br>" 
+    # except:
+    #     result = 'Try Again'
+
+    #     db_connection.close()
     try:
-        cursor.execute(sql) 
-        m = cursor.fetchall() 
-        print('---------------------')
-        for row in m:
-            result+=str(row)+"<br>" 
+        connection = pymysql.connect(host=database_config.hostname, user=database_config.user, passwd=database_config.passwd, database=database)
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        rows=cursor.fetchall()
+        result=''
+        print(result)
+        for row in rows:
+            result+=str(row)+"<br>"
     except:
-        result = 'Try Again'
-
-        db_connection.close()
-
+        result="Try Again"
+    finally:
+        connection.close()
     return ('<span> ' + sql +'<br>'+result+ ' </span>')
 
 if __name__ == '__main__':
