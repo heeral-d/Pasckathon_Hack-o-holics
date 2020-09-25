@@ -5,36 +5,39 @@ import nltk
 import os
 import pickle
 import json
-# import MySQLdb
 import pymysql
 import database_config
 from nltk.stem import WordNetLemmatizer 
+import csv
+import time
+import threading
+import sweet
 app = Flask(__name__)
 
 app.config['File_uploads']=database_config.file_path+"static"
 database = ''
 dic1 = {}
-
+csv_list = []
 @app.route('/home')
 def home():
     return render_template("start.html")
 
-@app.route('/',methods=["POST"])
+@app.route('/bot')
 def hello():
     global dic1
     l=[]
     i = 1
-    uploaded_file = request.files['userfile']
-    if uploaded_file.filename.split(".")[1]=="sql":
-        uploaded_file.save(os.path.join(app.config['File_uploads'],uploaded_file.filename))
-        print(uploaded_file.filename)
-        for file in os.listdir(app.config['File_uploads']):
-            if file.split(".")[1]=="sql":
-                l.append(str(file.split(".")[0]))
-                dic1[str(i)] = str(file.split(".")[0])
-                i += 1
-        return render_template("home.html",file_list=l)
-    return redirect(url_for('home'))	
+    # uploaded_file = request.files['userfile']
+    # if uploaded_file.filename.split(".")[1]=="sql":
+    #     uploaded_file.save(os.path.join(app.config['File_uploads'],uploaded_file.filename))
+    #     print(uploaded_file.filename)
+    for file in os.listdir(app.config['File_uploads']):
+        if file.split(".")[1]=="sql":
+            l.append(str(file.split(".")[0]))
+            dic1[str(i)] = str(file.split(".")[0])
+            i += 1
+    return render_template("home.html",file_list=l)
+    # return redirect(url_for('home'))	
 
 @app.route("/get_database",methods=['POST'])
 def set_database():
@@ -44,12 +47,7 @@ def set_database():
     sample_text = request.form['post_id']
     database = dic1[sample_text]
     print(sample_text)
-    # if sample_text=='1':
-    #     database="university"
-    # elif sample_text=='2':
-    #     database='smart_bot'
     sqlparser2.parser(database+'.sql')
-    #os.system('python sqlparser2.py '+database+'.sql')
     sql="Database loaded"
     return '<span> ' + sql +'<br>'+database+ ' </span>'    
 
@@ -67,6 +65,20 @@ def record():
             except:
                 text = 'Sorry could not recognize your file'
     return text 
+
+@app.route("/download",methods=['POST'])
+def download():
+    global csv_list
+    re = request.form['download']
+    if re == 'CSV downloading: ':
+        with open(database_config.file_path+'static\\output.csv', 'w') as csvfile:
+            csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            for row in csv_list:
+                csvwriter.writerow(row)
+        # csv_list = []
+    sweet.analysis()
+    
+    # return "CSV downloaded"
 
 @app.route("/getsql",methods=["POST"])
 def getsql():
@@ -87,32 +99,9 @@ def getsql():
     # print(tables_relation)
     map_schema={}
     agg=''
-    
-    # def mysqlconnect(sql): 
-    #     try: 
-    #         db_connection= MySQLdb.connect("localhost","root","","smart_bot") 
-    #     except: 
-    #         print("Can't connect to database") 
-    #         return 0
-    #     print("Connected")  
-    #     cursor=db_connection.cursor() 
-    #     cursor.execute(sql) 
-    #     m = cursor.fetchall() 
-    #     print('---------------------')
-    #     for row in m:
-    #         result+=row+"<br>" 
-    #     db_connection.close() 
-
-
-
     def isWhere(pos):
         for i in range(len(pos)):
             if(pos[i][1]=='WP$' or pos[i][1]=='WRB'):
-                return i
-        return -1
-    def checkPrep(pos):
-        for i in range(len(pos)):
-            if(pos[i][1]=='IN' and (pos[i][0]=='with' or pos[i][0]=='in')):
                 return i
         return -1
 
@@ -240,18 +229,7 @@ def getsql():
         attr_list=getAttributes(second_part)
         print(attr_list)
         tname,map_schema=findTable(first_part[-1][0],attr_list)
-        #print(first_part)
-        # print("ahdkjd")
-        #print(second_part)
-        # print(attr_list)
-        # print(tname)
-        # print(map_schema)
-    else:
-        p=isPrep(pos)
-        if p!=-1:
-            first_part=pos[0:p]
-            second_part=pos[p+1:]
-            attr_list=getAttributes(second_part)
+
     if sample_text.find("What is")!=-1 or sample_text.find("What are")!=-1 or sample_text.find("How many")!=-1:
         for i in range(len(pos)):
             if pos[i][0] == 'of':
@@ -269,36 +247,29 @@ def getsql():
         sql="SELECT "+agg+"("+attr+") FROM "+tname+" WHERE";
     sql += condition_args(attr_list,map_schema)+" ;"
     print(sql)
-        # mysqlconnect(sql)
-         
-    # try: 
-    #     db_connection= MySQLdb.connect("localhost","root","",database) 
-    # except: 
-    #     print("Can't connect to database") 
-    #     return 0
-    # print("Connected")  
-    # cursor=db_connection.cursor() 
-    # try:
-    #     cursor.execute(sql) 
-    #     m = cursor.fetchall() 
-    #     print('---------------------')
-    #     for row in m:
-    #         result+=str(row)+"<br>" 
-    # except:
-    #     result = 'Try Again'
 
-    #     db_connection.close()
     try:
         connection = pymysql.connect(host=database_config.hostname, user=database_config.user, passwd=database_config.passwd, database=database)
         cursor = connection.cursor()
         cursor.execute(sql)
         rows=cursor.fetchall()
-        result=''
-        print(result)
+        col_name = []
+        global csv_list
+        for c1 in cursor.description:
+            col_name.append(c1[0])
+        csv_list.append(col_name)
+        result="<br><table style='border: 1px solid white;'>"
+        for l in col_name:
+            result+="<th style='border: 1px solid white;'><strong>"+l+"<strong></th>"
         for row in rows:
+            csv_list.append(row)
+            result+="<tr style='border: 1px solid white;'>"    
             for col in row:
-                result+=str(col)+", "
-            result+="<br>"
+                result+="<td style='border: 1px solid white;'>"+str(col)+"</td>"
+            result+="</tr>"
+        result+="</table><br>"
+        # print(result)
+        print(csv_list)
     except:
         result="Try Again"
     finally:

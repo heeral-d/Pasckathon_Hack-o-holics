@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 29, 2020 at 07:45 AM
+-- Generation Time: Sep 25, 2020 at 09:16 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -34,6 +34,16 @@ CREATE TABLE `company` (
   `address` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `company`
+--
+
+INSERT INTO `company` (`company_id`, `company_name`, `address`) VALUES
+(1, 'Apple', 'Delhi'),
+(2, 'Samsung', 'Bangalore'),
+(3, 'Xiaomi', 'Mumbai'),
+(4, 'OnePlus', 'Mumbai');
+
 -- --------------------------------------------------------
 
 --
@@ -57,6 +67,19 @@ CREATE TABLE `customer` (
   `mobile` int(10) NOT NULL,
   `mail` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`customer_id`, `name`, `mobile`, `mail`) VALUES
+(1001, 'Heeral', 966473731, 'heeral.d@somaiya.edu'),
+(1002, 'Sagar', 974720233, '0913heeral@gmail.com'),
+(1003, 'Dev', 41021022, 'dev.c@gmail.com'),
+(1004, 'Arvind', 226644919, 'arv.s@gmailcom'),
+(1005, 'Reshmi', 459830894, 'resh@gmail.com'),
+(1006, 'Aditi', 48294820, 'aditi@gmail.com'),
+(1121, 'Arvind', 23565746, 'heeral.d@somaiya.edu');
 
 -- --------------------------------------------------------
 
@@ -83,6 +106,16 @@ CREATE TABLE `product` (
   `price` int(11) NOT NULL,
   `user_rating` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`product_id`, `product_name`, `category`, `company`, `price`, `user_rating`) VALUES
+(201, 'iPhone 6', 'Technology', 'Apple', 49000, 4.8),
+(202, 'OnePlus 7', 'Technology', 'OnePlus', 38000, 4.2),
+(203, 'Mi Band 4', 'Technology', 'Xiaomi', 3000, 4.1),
+(204, 'Mi Bag', 'Accessory', 'Xiaomi', 2000, 3.4);
 
 --
 -- Indexes for dumped tables
