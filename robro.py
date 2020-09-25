@@ -19,7 +19,7 @@ dic1 = {}
 def home():
     return render_template("start.html")
 
-@app.route('/bot',methods=["POST"])
+@app.route('/',methods=["POST"])
 def hello():
     global dic1
     l=[]
@@ -108,6 +108,11 @@ def getsql():
     def isWhere(pos):
         for i in range(len(pos)):
             if(pos[i][1]=='WP$' or pos[i][1]=='WRB'):
+                return i
+        return -1
+    def checkPrep(pos):
+        for i in range(len(pos)):
+            if(pos[i][1]=='IN' and (pos[i][0]=='with' or pos[i][0]=='in')):
                 return i
         return -1
 
@@ -241,7 +246,12 @@ def getsql():
         # print(attr_list)
         # print(tname)
         # print(map_schema)
-        
+    else:
+        p=isPrep(pos)
+        if p!=-1:
+            first_part=pos[0:p]
+            second_part=pos[p+1:]
+            attr_list=getAttributes(second_part)
     if sample_text.find("What is")!=-1 or sample_text.find("What are")!=-1 or sample_text.find("How many")!=-1:
         for i in range(len(pos)):
             if pos[i][0] == 'of':
@@ -286,7 +296,9 @@ def getsql():
         result=''
         print(result)
         for row in rows:
-            result+=str(row)+"<br>"
+            for col in row:
+                result+=str(col)+", "
+            result+="<br>"
     except:
         result="Try Again"
     finally:
