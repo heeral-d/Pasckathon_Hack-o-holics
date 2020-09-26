@@ -46,16 +46,20 @@
     <div class="overlay-container">
       <div class="overlay">
         <div class="overlay-panel overlay-left">
-
           <div id="msg2">
           </div>
+          <br>
+          <br>
             <button class="ghost" id="user_data2" type="button">Let's Chat</button>
         </div>
 
         <div class="overlay-panel overlay-right">
           <h1>Welcome Back!</h1>
+          <br>
           <div id="msg1">
           </div>
+          <br>
+          <br>
           <button class="ghost" id="user_data1">Say hello to Robro</button>
         </div>
       </div>
@@ -68,9 +72,17 @@
     const container = document.getElementById('container');
     signUpButton.addEventListener('click', () => {
       if ($("#user_name").val() != "") {
-        container.classList.add("right-panel-active");
-        $("#msg2").html("");
+        if($("#user_name").val() == "admin") {
+          container.classList.add("right-panel-active");
+          $("#msg2").html("");
+        }
+
+        else {
+          window.location.replace("http://127.0.0.1:5000/bot")
+        }
+
       }
+      
       else {
         alert("Please enter your name ")
       }
@@ -98,10 +110,10 @@
 
     }
     $(document).ready(function () {
-      printLetterByLetter("msg1", "Hello I am Robro a smart assistant to help ou Fetch data from database using simple English", 30, 1);
+      printLetterByLetter("msg1", "Hi! I am Robro : a smart assistant to help ou Fetch data from database using simple English sentence", 30, 1);
       $("#user_data1").click(function () {
         window.name = $("#user_name").val();
-        printLetterByLetter("msg2", "Hello " + name + " .I can help You .Please submit a .sql file of your database", 30, 0);
+        printLetterByLetter("msg2", "Hi! " + name + " , please submit a .sql file of new database", 30, 0);
 
       });
     });
@@ -115,11 +127,9 @@
   }
 
   body {
-    background-image: url("bg.png");
-    ;
+    background-image: url_for("bg.png");
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    /*background: #f6f5f7;*/
+    background-size : cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,8 +171,8 @@
 
   button {
     border-radius: 20px;
-    border: 1px solid #4d94ff;
-    background-color: #4d94ff;
+    border: 1px solid#1b445e;
+    background-color:#1b445e;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: bold;
@@ -283,9 +293,9 @@
   }
 
   .overlay {
-    background: #FF416C;
-    background: -webkit-linear-gradient(to right, #4d94ff, #FF416C);
-    background: linear-gradient(to right, #4d94ff, #FF416C);
+    background:#597856;
+    background: -webkit-linear-gradient(to right,#1b445e,#597856);
+    background: linear-gradient(to right,#1b445e,#597856);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
