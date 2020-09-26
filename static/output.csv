@@ -2,6 +2,8 @@ product_id,product_name,category,company,price,user_rating
 1,Toyota,Industrial,Yotz,50604,2.3
 2,Dodge,Computers,Digitube,38475,0.3
 3,Oldsmobile,Automotive,Fivespan,27611,1.3
+4,BMW,Shoes,Devcast,12741,4.3
+5,Buick,Tools,Divape,24822,3.2
 6,Pontiac,Grocery,Edgewire,50061,0.2
 7,Toyota,Jewelery,Geba,33496,2.9
 8,Lexus,Industrial,Blogtag,39865,2.2
@@ -11,11 +13,14 @@ product_id,product_name,category,company,price,user_rating
 12,Chrysler,Games,Photofeed,58663,2.5
 13,Mercury,Movies,Edgewire,51932,0.4
 14,Pontiac,Home,Chatterpoint,50164,0.2
+15,Jeep,Outdoors,Dabfeed,31953,3.6
 16,Nissan,Games,Skinder,19019,1.6
 17,Volkswagen,Computers,Mita,58414,0.3
 18,Chevrolet,Grocery,Edgewire,58500,0.8
 19,Ford,Kids,Viva,20298,0.7
+20,Toyota,Toys,Avamm,22420,3.4
 21,Mazda,Health,Livetube,49175,1.1
 22,Cadillac,Toys,Jaxworks,6686,2.7
 23,Lexus,Kids,Brainverse,58428,1.8
 24,Bentley,Sports,Kanoodle,25902,1.9
+25,Isuzu,Industrial,Quaxo,30022,4.8

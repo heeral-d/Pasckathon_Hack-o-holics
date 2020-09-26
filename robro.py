@@ -96,6 +96,7 @@ def getsql():
     sample_text=sample_text.replace(',',' ')
     # print('sample',sample_text)
 
+    #
     with open('static/table_attributes.json') as f:
         table_attributes = json.load(f)
     with open('static/mapping.json') as f:
@@ -111,6 +112,9 @@ def getsql():
     map_schema={}
     agg=''
     #
+
+
+
 
     def isWhere(pos):
             for i in range(len(pos)):
@@ -167,10 +171,10 @@ def getsql():
                     q.append(diff)
                     best_match_list.append(q)
         best_match_list.sort(key = lambda x: x[1])
-        # print("best",best_match_list)
+        print("best",best_match_list)
         p=""
         map_schema={}
-        # print("attr",attr_list)
+        print("attr",attr_list)
         for i in best_match_list:
             count=0
             for j in attr_list:
@@ -306,8 +310,11 @@ def getsql():
         possible_candidate=[]
         aggr=''
         for data in first_part:
-            if data[1].find('NN')!=-1 and data[0]!=tname and data[0] in table_attributes[table]:
-                possible_candidate.append(data[0])
+            if data[1].find('NN')!=-1 and data[0]!=tname: 
+                for q in table_attributes[table]:
+                    if(q.find(data[0])!=-1):
+                        possible_candidate.append(q)
+            possible_candidate=list(set(possible_candidate))
             if (data[1].find('NN')!=-1 and data[0] in mapping['COUNT']):
                 aggr='COUNT'
             elif data[1].find('JJ')!=-1:
@@ -371,7 +378,7 @@ def getsql():
             print(attr_list)
             print(tname)
             print(map_schema)
-            where_condition_string=condition_args(attr_list,map_schema)
+            where_condition_string=condition_args_for(attr_list,map_schema)
         else:
             first_part=pos
             for data in first_part:
@@ -379,7 +386,7 @@ def getsql():
                     tname=data[0]
 
     if where_condition_string!='':
-        where_condition_string=" WHERE"+condition_args(attr_list,map_schema)
+        where_condition_string=" WHERE"+where_condition_string
 
     possible_candidate,aggr=selected_attr(tname,first_part)
 
@@ -396,7 +403,7 @@ def getsql():
         else:
             possible_candidate=aggr+'('+','.join(possible_candidate)+')'
 
-    sql='SELECT '+possible_candidate+' FROM '+tname+where_condition_string+';' 
+    sql='SELECT '+possible_candidate+' FROM '+tname+where_condition_string
     print('SQL query:',sql)
 
         # mysqlconnect(sql)
